@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>webdj @ <%= @hostname %></title>
+  <style>
+    * {
+      margin:0;
+      padding:0;
+    }
+
+    body {
+      font-family:Verdana, sans-serif;
+    }
+
+    .header {
+      margin:12px;
+      margin-bottom:0px;
+      padding:24px 12px;
+      font-size:24px;
+      background-color:#18b6f3;
+    }
+
+    .now_playing {
+      margin:12px;
+      margin-bottom:0px;
+      padding:12px;
+      background-color:#a9e4fb;
+      font-size:14px;
+    }
+
+    .clear {
+      clear:both;
+    }
+
+    .queue {
+      float:left;
+      margin:12px;
+      margin-right:0px;
+      width:480px;
+    }
+
+    .browser {
+      margin:12px;
+      padding-left:492px;
+    }
+
+    h2 {
+      background-color:#f6df77;
+      padding:12px;
+      font-size:14px;
+      font-weight:bold;
+    }
+
+    ul {
+      padding:12px 4px;
+      padding-left:12px;
+      list-style:none;
+    }
+
+    li {
+      padding:4px 0px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">webdj @ <%= @hostname %></div>
+  <div class="now_playing">
+    <strong>Now Playing:</strong>
+    <% if @player.now_playing %>
+      <%= format_song(@player.now_playing) %> (<a href="/_skip">skip</a>)
+    <% else %>
+      Nothing. You should stick something on!
+    <% end %>
+  </div>
+  <div class="queue">
+    <h2>Queue</h2>
+    <ul>
+      <% @player.queue.each do |item| %>
+        <li><%= format_song(item) %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="browser">
+    <h2>
+      <a href="/">Library</a>
+      <% (0...@parts.size).each do |i| %>
+        / <a href="/<%= @parts[0..i].join("/") %>"><%= @parts[i] %></a>
+      <% end %>
+    </h2>
+    <ul>
+      <% @entries.each do |entry| %>
+        <li><a href="/<%= [*@parts, entry].join("/") %>"><%= entry %></a></li>
+      <% end %>
+    </ul>
+  </div>
+</body>
+</html>
